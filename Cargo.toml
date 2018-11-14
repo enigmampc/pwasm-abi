@@ -15,8 +15,9 @@ exclude = [ "tests/*", "derive/*" ]
 [profile.release]
 panic = "abort"
 
-[dependencies]
-pwasm-std = "0.10"
+[dependencies.parity-hash]
+version = "1"
+default-features = false
 
 [dependencies.uint]
 version = "0.3"
@@ -31,5 +32,5 @@ hex-literal = "0.1"
 
 [features]
 default = []
-std = ["uint/std", "pwasm-std/std"]
+std = ["uint/std"]
 strict = []

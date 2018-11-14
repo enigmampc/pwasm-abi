@@ -21,8 +21,8 @@ pub mod eth;
 
 /// Custom types which AbiType supports
 pub mod types {
-	pub use pwasm_std::Vec;
-	pub use pwasm_std::hash::*;
+	pub use Vec;
+	pub use hash::*;
 	pub use uint::U256;
 }
 
