@@ -7,7 +7,8 @@
 
 extern crate byteorder;
 extern crate uint;
-extern crate pwasm_std;
+extern crate std;
+extern crate parity_hash;
 
 #[cfg(test)]
 #[macro_use]
