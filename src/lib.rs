@@ -22,7 +22,7 @@ pub mod eth;
 
 /// Custom types which AbiType supports
 pub mod types {
-	pub use Vec;
+	pub use std::vec::Vec;
 	pub use hash::*;
 	pub use uint::U256;
 }
