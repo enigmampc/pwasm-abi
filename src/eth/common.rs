@@ -2,7 +2,7 @@
 
 use lib::*;
 use super::{util, Stream, AbiType, Sink, Error};
-use super::types::*;
+use super::types::{H160, H256, U256};
 
 impl AbiType for u32 {
 	fn decode(stream: &mut Stream) -> Result<Self, Error> {
@@ -118,10 +118,10 @@ impl AbiType for U256 {
 	const IS_FIXED: bool = true;
 }
 
-impl AbiType for Address {
+impl AbiType for H160 {
 	fn decode(stream: &mut Stream) -> Result<Self, Error> {
 		let arr = <H256>::decode(stream)?;
-		Ok(arr.into())
+		Ok(H160::from(arr).into())
 	}
 
 	fn encode(self, sink: &mut Sink) {
