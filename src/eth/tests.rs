@@ -2,7 +2,7 @@ use super::*;
 use super::types::*;
 use lib::*;
 
-#[cfg(feature = "std")]
+#[cfg(test)]
 mod hextest {
 	use super::super::*;
 	use lib::*;
@@ -55,10 +55,10 @@ mod hextest {
 
 }
 
-#[cfg(feature = "std")]
+#[cfg(any(feature="std", test))]
 macro_rules! assert_eq_core  { ($a:expr, $b:expr) => (assert_eq!($a, $b)) }
 
-#[cfg(not(feature = "std"))]
+#[cfg(not(any(feature="std", test)))]
 macro_rules! assert_eq_core  { ($a:expr, $b:expr) => (assert!($a == $b, stringify!($a == $b))) }
 
 #[test]

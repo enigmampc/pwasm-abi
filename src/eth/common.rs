@@ -3,7 +3,7 @@
 use lib::*;
 use super::{util, Stream, AbiType, Sink, Error};
 use super::types::{H160, H256, U256};
-use pwasm_std::str::from_utf8;
+use self::str::from_utf8;
 
 impl AbiType for u32 {
 	fn decode(stream: &mut Stream) -> Result<Self, Error> {
@@ -166,7 +166,7 @@ impl AbiType for H256 {
 	}
 
 	fn encode(self, sink: &mut Sink) {
-		self.0.encode(sink)
+		self.as_fixed_bytes().encode(sink)
 	}
 
 	const IS_FIXED: bool = true;

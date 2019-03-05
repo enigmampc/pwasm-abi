@@ -1,39 +1,42 @@
 //! WASM ABI Tools
 
-#![cfg_attr(not(feature="std"), no_std)]
-#![cfg_attr(not(feature="std"), feature(alloc))]
+#![cfg_attr(not(any(feature = "std", test)), no_std)]
+#![cfg_attr(not(any(feature = "std", test)), feature(alloc))]
 #![warn(missing_docs)]
 #![cfg_attr(feature="strict", deny(unused))]
 
+
 extern crate byteorder;
-extern crate uint;
-extern crate std;
-extern crate parity_hash;
+#[macro_use] extern crate uint;
+
 
 #[cfg(test)]
-#[cfg_attr(all(test, feature = "std"), macro_use)]
+#[cfg_attr(test, macro_use)]
 extern crate hex_literal;
 
-#[cfg(not(feature="std"))]
-#[allow(unused)]
-#[macro_use] extern crate alloc;
+#[cfg(feature = "hex")]
+extern crate rustc_hex;
+
+#[cfg(not(any(feature = "std", test)))]
+extern crate alloc;
+
+#[macro_use] extern crate fixed_hash;
+
+#[cfg(feature = "serialize")]
+#[macro_use] extern crate serde;
 
 pub mod eth;
 
 /// Custom types which AbiType supports
-pub mod types {
-	pub use std::vec::Vec;
-	pub use std::string::String;
-	pub use parity_hash::*;
-	pub use uint::U256;
-}
+pub mod types;
+
 
 mod lib {
 
 	mod core {
-		#[cfg(feature = "std")]
+		#[cfg(any(feature="std", test))]
 		pub use std::*;
-		#[cfg(not(feature = "std"))]
+		#[cfg(not(any(feature="std", test)))]
 		pub use core::*;
 	}
 
@@ -50,23 +53,24 @@ mod lib {
 	pub use self::core::option::{self, Option};
 	pub use self::core::result::{self, Result};
 
-	#[cfg(feature = "std")]
+	#[cfg(any(feature="std", test))]
 	pub use std::borrow::{Cow, ToOwned};
-	#[cfg(not(feature = "std"))]
+	#[cfg(not(any(feature="std", test)))]
 	pub use alloc::borrow::{Cow, ToOwned};
 
-	#[cfg(feature = "std")]
+	#[cfg(any(feature="std", test))]
 	pub use std::string::String;
-	#[cfg(not(feature = "std"))]
+	#[cfg(not(any(feature="std", test)))]
 	pub use alloc::string::{String, ToString};
 
-	#[cfg(feature = "std")]
+	#[cfg(any(feature="std", test))]
 	pub use std::vec::Vec;
-	#[cfg(not(feature = "std"))]
+	#[cfg(not(any(feature="std", test)))]
 	pub use alloc::vec::Vec;
 
-	#[cfg(feature = "std")]
+	#[cfg(any(feature="std", test))]
 	pub use std::boxed::Box;
-	#[cfg(not(feature = "std"))]
+	#[cfg(not(any(feature="std", test)))]
 	pub use alloc::boxed::Box;
+
 }

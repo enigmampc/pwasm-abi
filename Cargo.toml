@@ -1,6 +1,6 @@
 [package]
 name = "eng-pwasm-abi"
-version = "0.2.2"
+version = "0.3.0"
 authors = ["NikVolf <nikvolf@gmail.com>", "Alexey Frolov <alexey@parity.io>", "Moria <moria@enigma.co>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
@@ -15,14 +15,18 @@ exclude = [ "tests/*", "derive/*" ]
 panic = "abort"
 
 [dependencies]
-parity-hash = { version = "1.2", default-features = false }
-uint = { version = "0.3", default-features = false }
+uint = { version = "0.6", default-features = false }
 byteorder = { version = "1.2", default-features = false }
+fixed-hash = { version = "0.3.0", default-features = false }
+serde = { version = "1.0.89", optional = true, default-features = false, features = ["derive"] }
+rustc-hex = { version = "2.0.1", default-features = false, optional = true }
 
 [dev-dependencies]
 hex-literal = "0.1"
 
 [features]
-default = []
+default = ["serialize", "hex"]
 std = ["uint/std", "byteorder/std"]
+hex = ["rustc-hex"]
 strict = []
+serialize = ["serde"]
