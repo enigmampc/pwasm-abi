@@ -2,15 +2,23 @@
 
 // Constructed via `fixed_hash` crate macro.
 
-pub use uint::U256;
-
-#[cfg(feature = "std")]
+#[cfg(any(feature="std", test))]
 pub use std::{string::String, vec::Vec};
-#[cfg(not(feature = "std"))]
+#[cfg(not(any(feature="std", test)))]
 pub use alloc::{string::String, vec::Vec};
 
 use lib::ops::Deref;
-// pub use parity_hash::*;
+use lib::iter::FromIterator;
+
+construct_uint!{
+    #[cfg_attr(feature = "serialize", derive(Serialize, Deserialize))]
+    pub struct U256(4);
+}
+
+construct_uint!{
+    #[cfg_attr(feature = "serialize", derive(Serialize, Deserialize))]
+    pub struct U512(8);
+}
 
 construct_fixed_hash!{
 	/// A 160 bits (20 bytes) hash type.
@@ -95,5 +103,37 @@ impl<'a> From<&'a [u8]> for H160 {
 impl<'a> From<&'a [u8]> for H256 {
     fn from(s: &'a [u8]) -> Self {
         Self::from_slice(s)
+    }
+}
+
+impl FromIterator<u8> for H256 {
+    fn from_iter<I: IntoIterator<Item=u8>>(iter: I) -> Self {
+        let mut c = Self::zero();
+
+        for (i, val) in iter.into_iter().enumerate() {
+            c.as_bytes_mut()[i] = val;
+        }
+        c
+    }
+}
+
+impl FromIterator<u8> for H160 {
+    fn from_iter<I: IntoIterator<Item=u8>>(iter: I) -> Self {
+        let mut c = Self::zero();
+
+        for (i, val) in iter.into_iter().enumerate() {
+            c.as_bytes_mut()[i] = val;
+        }
+        c
+    }
+}
+
+#[cfg(feature = "hex")]
+impl crate::lib::str::FromStr for H160 {
+    type Err = rustc_hex::FromHexError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        use rustc_hex::FromHex;
+        Ok(s.from_hex()?)
     }
 }
