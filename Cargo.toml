@@ -1,6 +1,6 @@
 [package]
 name = "eng-pwasm-abi"
-version = "0.3.1"
+version = "0.3.2"
 authors = ["NikVolf <nikvolf@gmail.com>", "Alexey Frolov <alexey@parity.io>", "Moria <moria@enigma.co>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
