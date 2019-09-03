@@ -2,7 +2,7 @@ use {syn, quote};
 use tiny_keccak::Keccak;
 use byteorder::{BigEndian, ByteOrder};
 
-use pwasm_hash::H256;
+use parity_hash::H256;
 
 pub struct SignatureIterator<'a> {
 	method_sig: &'a syn::MethodSig,
