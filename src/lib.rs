@@ -1,7 +1,6 @@
 //! WASM ABI Tools
 
 #![cfg_attr(not(any(feature = "std", test)), no_std)]
-#![cfg_attr(not(any(feature = "std", test)), feature(alloc))]
 #![warn(missing_docs)]
 #![cfg_attr(feature="strict", deny(unused))]
 
