@@ -176,8 +176,10 @@ impl<T: AbiType> AbiType for Vec<T> {
 	fn decode(stream: &mut Stream) -> Result<Self, Error> {
 		let len = u32::decode(stream)? as usize;
 		let mut result = Vec::with_capacity(len);
+        // since the length of the vector must not be included in the encoded array, we remove it.
+        let mut nested_stream = Stream::new(&stream.payload()[stream.position()..]);
 		for _ in 0..len {
-			result.push(stream.pop()?);
+			result.push(nested_stream.pop()?);
 		}
 		Ok(result)
 	}
